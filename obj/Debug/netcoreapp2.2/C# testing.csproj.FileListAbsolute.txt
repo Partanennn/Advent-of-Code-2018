@@ -1,0 +1,11 @@
+C:\Users\Akseli\OneDrive - University of Eastern Finland\Koodailua\C# testing\bin\Debug\netcoreapp2.2\C# testing.deps.json
+C:\Users\Akseli\OneDrive - University of Eastern Finland\Koodailua\C# testing\bin\Debug\netcoreapp2.2\C# testing.runtimeconfig.json
+C:\Users\Akseli\OneDrive - University of Eastern Finland\Koodailua\C# testing\bin\Debug\netcoreapp2.2\C# testing.runtimeconfig.dev.json
+C:\Users\Akseli\OneDrive - University of Eastern Finland\Koodailua\C# testing\bin\Debug\netcoreapp2.2\C# testing.dll
+C:\Users\Akseli\OneDrive - University of Eastern Finland\Koodailua\C# testing\bin\Debug\netcoreapp2.2\C# testing.pdb
+C:\Users\Akseli\OneDrive - University of Eastern Finland\Koodailua\C# testing\obj\Debug\netcoreapp2.2\C# testing.csprojAssemblyReference.cache
+C:\Users\Akseli\OneDrive - University of Eastern Finland\Koodailua\C# testing\obj\Debug\netcoreapp2.2\C# testing.csproj.CoreCompileInputs.cache
+C:\Users\Akseli\OneDrive - University of Eastern Finland\Koodailua\C# testing\obj\Debug\netcoreapp2.2\C# testing.AssemblyInfoInputs.cache
+C:\Users\Akseli\OneDrive - University of Eastern Finland\Koodailua\C# testing\obj\Debug\netcoreapp2.2\C# testing.AssemblyInfo.cs
+C:\Users\Akseli\OneDrive - University of Eastern Finland\Koodailua\C# testing\obj\Debug\netcoreapp2.2\C# testing.dll
+C:\Users\Akseli\OneDrive - University of Eastern Finland\Koodailua\C# testing\obj\Debug\netcoreapp2.2\C# testing.pdb
