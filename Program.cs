@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace C__testing
 {
@@ -6,8 +7,13 @@ namespace C__testing
     {
         static void Main(string[] args)
         {
-            
-            Console.WriteLine("Hello World!");
+            StreamReader sr = new StreamReader("input.txt");
+
+            while(!sr.EndOfStream) {
+                Console.WriteLine(sr.ReadLine());
+            }
+                
+            sr.Close();
         }
     }
 }
