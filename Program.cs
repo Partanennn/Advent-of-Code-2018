@@ -8,11 +8,13 @@ namespace C__testing
         static void Main(string[] args)
         {
             StreamReader sr = new StreamReader("input.txt");
-
+            int answer = 0;
             while(!sr.EndOfStream) {
-                Console.WriteLine(sr.ReadLine());
+                String line = sr.ReadLine();
+
+                answer += Int32.Parse(line);
+                Console.WriteLine(answer);
             }
-                
             sr.Close();
         }
     }
