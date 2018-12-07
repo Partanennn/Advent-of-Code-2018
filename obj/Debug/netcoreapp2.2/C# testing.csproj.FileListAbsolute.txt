@@ -9,3 +9,14 @@ C:\Users\Akseli\OneDrive - University of Eastern Finland\Koodailua\C# testing\ob
 C:\Users\Akseli\OneDrive - University of Eastern Finland\Koodailua\C# testing\obj\Debug\netcoreapp2.2\C# testing.AssemblyInfo.cs
 C:\Users\Akseli\OneDrive - University of Eastern Finland\Koodailua\C# testing\obj\Debug\netcoreapp2.2\C# testing.dll
 C:\Users\Akseli\OneDrive - University of Eastern Finland\Koodailua\C# testing\obj\Debug\netcoreapp2.2\C# testing.pdb
+C:\GitHub\Advent-of-Code-2018\obj\Debug\netcoreapp2.2\C# testing.csprojAssemblyReference.cache
+C:\GitHub\Advent-of-Code-2018\obj\Debug\netcoreapp2.2\C# testing.csproj.CoreCompileInputs.cache
+C:\GitHub\Advent-of-Code-2018\obj\Debug\netcoreapp2.2\C# testing.AssemblyInfoInputs.cache
+C:\GitHub\Advent-of-Code-2018\obj\Debug\netcoreapp2.2\C# testing.AssemblyInfo.cs
+C:\GitHub\Advent-of-Code-2018\obj\Debug\netcoreapp2.2\C# testing.dll
+C:\GitHub\Advent-of-Code-2018\obj\Debug\netcoreapp2.2\C# testing.pdb
+C:\GitHub\Advent-of-Code-2018\bin\Debug\netcoreapp2.2\C# testing.deps.json
+C:\GitHub\Advent-of-Code-2018\bin\Debug\netcoreapp2.2\C# testing.runtimeconfig.json
+C:\GitHub\Advent-of-Code-2018\bin\Debug\netcoreapp2.2\C# testing.runtimeconfig.dev.json
+C:\GitHub\Advent-of-Code-2018\bin\Debug\netcoreapp2.2\C# testing.dll
+C:\GitHub\Advent-of-Code-2018\bin\Debug\netcoreapp2.2\C# testing.pdb
