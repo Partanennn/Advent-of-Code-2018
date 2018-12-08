@@ -120,7 +120,7 @@ namespace C__testing
                 // Console.WriteLine("ID: {0}, coordinates: {1}, {2}  size: {3} x {4}", id, coordinate_x, coordinate_y, width, height);
 
             }
-            int fabric_x = 0, fabric_y = 0;
+            int fabric_y = 0;
             
             for(int i = 0; i < x; i++) {
                 for(int j = 0; j < y; j++) {
@@ -132,9 +132,9 @@ namespace C__testing
                 }
 
                 //Console.WriteLine();
-            }
-
-            Console.WriteLine("x count: {0}, y count: {1}", fabric_x, fabric_y);
+            } 
+            // Prints 
+            Console.WriteLine("Area of fabric: "+fabric_y);
         }
 
         static void Main(string[] args)
