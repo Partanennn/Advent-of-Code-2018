@@ -48,13 +48,13 @@ namespace C__testing
     class Program
     {
         static void test() {
-            StreamReader sr = new StreamReader("test.txt");
+            StreamReader sr = new StreamReader("input.txt");
 
-            int x = 10;
-            int y = 10;
+            int x = 1337;
+            int y = 1337;
             String[,] fabric = new String[x, y];
             
-            // Creates 'fabric' for consoles
+            // Creates dots for all table values
             for(int i = 0; i < x; i++) {
                 for(int j = 0; j < y; j++) {
                     fabric[i, j] = ". ";
@@ -107,83 +107,34 @@ namespace C__testing
                 int w = Int32.Parse(width);
                 int h = Int32.Parse(height);
  
-                Console.WriteLine("x: "+coor_x+" , y: "+ coor_y);
                 for(int i = 0; i < w; i++) {
                     for(int j = 0; j < h; j++) {
                         if(fabric[coor_x+i, coor_y+j] == ". ")
                             fabric[coor_x+i, coor_y+j] = id;
                         else 
-                            fabric[coor_x+i, coor_y+j] = "X";
+                            fabric[coor_x+i, coor_y+j] = "X ";
                     }
                 }
 
-                Console.WriteLine("ID: {0}, coordinates: {1}, {2}  size: {3} x {4}", id, coordinate_x, coordinate_y, width, height);
+                // Draws 
+                // Console.WriteLine("ID: {0}, coordinates: {1}, {2}  size: {3} x {4}", id, coordinate_x, coordinate_y, width, height);
 
             }
+            int fabric_x = 0, fabric_y = 0;
+            
             for(int i = 0; i < x; i++) {
                 for(int j = 0; j < y; j++) {
-                    if(fabric[i, j] == "X")  {
-                        Console.WriteLine("On");
+                    // Draws fabric to console
+                    //Console.Write(fabric[i,j]);
+                    if(fabric[i, j] == "X ")  {
+                        fabric_y++;
                     }
                 }
+
+                //Console.WriteLine();
             }
-        }
 
-        static void main()
-        {
-            StreamReader sr = new StreamReader("input.txt");
-            
-            while(!sr.EndOfStream) {
-                String info = sr.ReadLine();
-                int x = 10;
-                int y = 10;
-                
-                String temp = "";
-                String id = "", coordinate_x = "", coordinate_y = "", width = "", height = "";
-                bool loc_separator = false, size_separator = false;
-                
-                String[,] fabric = new String[x, y];
-
-                for(int i = 0; i < x; i++) {
-                    for(int j = 0; j < y; j++) {
-                        fabric[i, j] = ".";
-                    }
-                }
-                id = "";
-
-                foreach(char c in info) {
-                    bool number = Char.IsDigit(c);
-                    if(c == '#') {
-                        temp = "id";
-                    } else if(c == '@') {
-                        temp = "loc";
-                    } else if(c == ':') {
-                        temp = "size";
-                        loc_separator = false;
-                    } else if(c == ',') {
-                        loc_separator = true;
-                    } else if(c == 'x') {
-                        size_separator = true;
-                    }
-
-                    if(temp == "id" && number) {
-                        id += c;
-                    } else if(temp == "loc" && number) {
-                        if(!loc_separator) {
-                            coordinate_x += c;
-                        } else {
-                            coordinate_y += c;
-                        }
-                    } else if(temp == "size" && number) {
-                        if(!size_separator) {
-                            width += c;
-                        } else {
-                            height += c;
-                        }
-                    }
-                }
-                Console.WriteLine("ID: {0}, coordinates: {1}, {2}  size: {3} x {4}", id, coordinate_x, coordinate_y, width, height);
-            }
+            Console.WriteLine("x count: {0}, y count: {1}", fabric_x, fabric_y);
         }
 
         static void Main(string[] args)
