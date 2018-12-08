@@ -57,7 +57,7 @@ namespace C__testing
             // Creates dots for all table values
             for(int i = 0; i < x; i++) {
                 for(int j = 0; j < y; j++) {
-                    fabric[i, j] = ". ";
+                    fabric[i, j] = ".";
                 }
             }
             
@@ -109,10 +109,10 @@ namespace C__testing
  
                 for(int i = 0; i < w; i++) {
                     for(int j = 0; j < h; j++) {
-                        if(fabric[coor_x+i, coor_y+j] == ". ")
+                        if(fabric[coor_x+i, coor_y+j] == ".")
                             fabric[coor_x+i, coor_y+j] = id;
                         else 
-                            fabric[coor_x+i, coor_y+j] = "X ";
+                            fabric[coor_x+i, coor_y+j] = "X";
                     }
                 }
 
@@ -120,21 +120,50 @@ namespace C__testing
                 // Console.WriteLine("ID: {0}, coordinates: {1}, {2}  size: {3} x {4}", id, coordinate_x, coordinate_y, width, height);
 
             }
-            int fabric_y = 0;
-            
-            for(int i = 0; i < x; i++) {
-                for(int j = 0; j < y; j++) {
-                    // Draws fabric to console
-                    //Console.Write(fabric[i,j]);
-                    if(fabric[i, j] == "X ")  {
-                        fabric_y++;
+            sr.Close();
+            StreamReader st = new StreamReader("Input.txt");
+
+            while(!st.EndOfStream) {
+                String line = st.ReadLine();
+                Boolean is_id = false, is_size = false, size_change = false;
+                String id2 = "", size_x = "", size_y = "";
+                int real_size = 0, should_size = 0;
+
+                foreach(char a in line) {
+                    if(a == '#') {
+                        is_id = true;
+                    } else if(a == ' ')  {
+                        is_id = false;
+                    } else if(a == ':') {
+                        is_size = true;
+                    } else if(a == 'x') {
+                        size_change = true;
+                    }
+
+                    if(is_id && Char.IsDigit(a)) {
+                        id2 += a;
+                    } else if(is_size && Char.IsDigit(a) && !size_change) {
+                        size_x += a;
+                    } else if(is_size && Char.IsDigit(a) && size_change) {
+                        size_y += a;
                     }
                 }
 
-                //Console.WriteLine();
-            } 
-            // Prints 
-            Console.WriteLine("Area of fabric: "+fabric_y);
+                for(int i = 0; i < x; i++) {
+                    for(int j = 0; j < y; j++) {
+                        if(fabric[i, j] == id2) {
+                            real_size++;
+                        }
+                    }
+                }
+
+                should_size = Int32.Parse(size_x) * Int32.Parse(size_y);
+
+                if(should_size == real_size) {
+                    Console.WriteLine("No overlapping ID: {0}", id2);
+                }
+            }
+            st.Close();
         }
 
         static void Main(string[] args)
