@@ -48,64 +48,88 @@ namespace C__testing
     class Program
     {
         static void test() {
-            String info = "#12 @ 1,3: 4x4";
+            StreamReader sr = new StreamReader("test.txt");
+
             int x = 10;
             int y = 10;
-            
-            String temp = "";
-            String id = "", coordinate_x = "", coordinate_y = "", width = "", height = "";
-            bool loc_separator = false, size_separator = false;
-            
             String[,] fabric = new String[x, y];
-
+            
+            // Creates 'fabric' for consoles
             for(int i = 0; i < x; i++) {
                 for(int j = 0; j < y; j++) {
-                    fabric[i, j] = ".";
-                    //Console.WriteLine(fabric[i, j]);
+                    fabric[i, j] = ". ";
                 }
             }
-            id = "";
+            
+            while(!sr.EndOfStream) {
+                String info = sr.ReadLine();
+                
+                String temp = "";
+                String id = "", coordinate_x = "", coordinate_y = "", width = "", height = "";
+                bool loc_separator = false, size_separator = false;
+                
+                foreach(char c in info) {
+                    bool number = Char.IsDigit(c);
+                    if(c == '#') {
+                        temp = "id";
+                    } else if(c == '@') {
+                        temp = "loc";
+                    } else if(c == ':') {
+                        temp = "size";
+                        loc_separator = false;
+                    } else if(c == ',') {
+                        loc_separator = true;
+                    } else if(c == 'x') {
+                        size_separator = true;
+                    }
 
-            foreach(char c in info) {
-                bool number = Char.IsDigit(c);
-                if(c == '#') {
-                    temp = "id";
-                } else if(c == '@') {
-                    temp = "loc";
-                } else if(c == ':') {
-                    temp = "size";
-                    loc_separator = false;
-                } else if(c == ',') {
-                    loc_separator = true;
-                } else if(c == 'x') {
-                    size_separator = true;
+                    if(temp == "id" && number) {
+                        id += c;
+                    } else if(temp == "loc" && number) {
+                        if(!loc_separator) {
+                            coordinate_x += c;
+                        } else {
+                            coordinate_y += c;
+                        }
+                    } else if(temp == "size" && number) {
+                        if(!size_separator) {
+                            width += c;
+                        } else {
+                            height += c;
+                        }
+                    }
+
+
                 }
 
-                if(temp == "id" && number) {
-                    id += c;
-                } else if(temp == "loc" && number) {
-                    if(!loc_separator) {
-                        coordinate_x += c;
-                    } else {
-                        coordinate_y += c;
-                    }
-                } else if(temp == "size" && number) {
-                    if(!size_separator) {
-                        width += c;
-                    } else {
-                        height += c;
+                int coor_x = Int32.Parse(coordinate_x); 
+                int coor_y = Int32.Parse(coordinate_y);
+                int w = Int32.Parse(width);
+                int h = Int32.Parse(height);
+ 
+                Console.WriteLine("x: "+coor_x+" , y: "+ coor_y);
+                for(int i = 0; i < w; i++) {
+                    for(int j = 0; j < h; j++) {
+                        if(fabric[coor_x+i, coor_y+j] == ". ")
+                            fabric[coor_x+i, coor_y+j] = id;
+                        else 
+                            fabric[coor_x+i, coor_y+j] = "X";
                     }
                 }
+
+                Console.WriteLine("ID: {0}, coordinates: {1}, {2}  size: {3} x {4}", id, coordinate_x, coordinate_y, width, height);
+
             }
-            Console.WriteLine("ID: {0}, coordinates: {1}, {2}  size: {3} x {4}", id, coordinate_x, coordinate_y, width, height);
             for(int i = 0; i < x; i++) {
                 for(int j = 0; j < y; j++) {
-                    Console.Write(fabric[i, j]);
+                    if(fabric[i, j] == "X")  {
+                        Console.WriteLine("On");
+                    }
                 }
-                Console.WriteLine();
             }
         }
-        static void Main(string[] args)
+
+        static void main()
         {
             StreamReader sr = new StreamReader("input.txt");
             
@@ -159,8 +183,13 @@ namespace C__testing
                     }
                 }
                 Console.WriteLine("ID: {0}, coordinates: {1}, {2}  size: {3} x {4}", id, coordinate_x, coordinate_y, width, height);
-                
             }
+        }
+
+        static void Main(string[] args)
+        {
+                
+            test();
         }
     }
 }
