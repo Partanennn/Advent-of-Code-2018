@@ -59,11 +59,12 @@ namespace C__testing
 {
     class Program
     {
-
+        
         static void test() {
             StreamReader sr = new StreamReader("input.txt");
             String[] orderTable = new String[4];
             SortedDictionary<string, string> table = new SortedDictionary<string, string>();
+            SortedDictionary<string, string> sortedTable = new SortedDictionary<string, string>();
             int i = 0;
             while(!sr.EndOfStream) {
                 String line = sr.ReadLine();
@@ -82,16 +83,53 @@ namespace C__testing
                         end = true;
                     }
                 }
+                // Console.WriteLine("Guard id: {0}", guardID);     // Checks that guard id is what it shoudl be
                 // Adds line to table
                 table[key] = line;
             }
-            foreach(KeyValuePair<string, string> a in table) {
+
+            
+
+            // Adds unique key, that have timestamp and guard id in it
+            string guardID = "";
+            foreach(KeyValuePair<string, string> info in table) {
+                String key = "";
+                Boolean end = false, isGuardID = false;
+                int counter = 0;    // Counts for spaces
+                foreach(char a in info.ToString()) {
+                    if(Char.IsDigit(a) && !end) {
+                        key += a;
+                    } else if(a == ' ') {
+                        counter++;
+                        isGuardID = false;
+                    } else if(counter == 2) {
+                        end = true;
+                    } else if(a == '#') {
+                        guardID = "";
+                        isGuardID = true;
+                    } else if(isGuardID && Char.IsDigit(a)) {
+                        guardID += a;
+                    }
+                }
+                key = key+guardID;
+                sortedTable[key] = info.ToString();
+            }
+
+            // Prints table with timestamp keys
+            // foreach(KeyValuePair<string, string> a in table) {
+            //     Console.WriteLine("Key: {0}, Value: {1}", a.Key, a.Value);
+            // }
+
+            // Prints sortedtable, that have timestamp and guard id as key
+            foreach(KeyValuePair<string, string> a in sortedTable) {
                 Console.WriteLine("Key: {0}, Value: {1}", a.Key, a.Value);
             }
+
             sr.Close();
         }
+
         static void Main(string[] args)
-        {
+        {   
             test();
         }
     }
