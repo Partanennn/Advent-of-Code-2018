@@ -62,7 +62,9 @@ namespace C__testing
         
         static void test() {
             StreamReader sr = new StreamReader("input.txt");
-            String[] orderTable = new String[4];
+            String[] guards = new String[23];
+            int guardIndex = 0;
+
             SortedDictionary<string, string> table = new SortedDictionary<string, string>();
             SortedDictionary<string, string> sortedTable = new SortedDictionary<string, string>();
             int i = 0;
@@ -75,6 +77,15 @@ namespace C__testing
                 // orderTable[i] = line;
                 // i++;
                 foreach(char a in line) {
+                    
+                    // if(a == '#') {
+                    //     end = true;
+                    // } else if(a == ' ') {
+                    //     counter++;
+                    // } else if(counter == 3 && end) {
+                    //     key += a;
+                    // }
+
                     if(Char.IsDigit(a) && !end) {
                         key += a;
                     } else if(a == ' ') {
@@ -88,13 +99,14 @@ namespace C__testing
                 table[key] = line;
             }
 
-            
-
             // Adds unique key, that have timestamp and guard id in it
             string guardID = "";
+            int guardCounter = 0;
+            int infoCounter = 0;
+            Boolean first = true;
             foreach(KeyValuePair<string, string> info in table) {
                 String key = "";
-                Boolean end = false, isGuardID = false;
+                Boolean end = false, isGuardID = false, isGuardYes = false;
                 int counter = 0;    // Counts for spaces
                 foreach(char a in info.ToString()) {
                     if(Char.IsDigit(a) && !end) {
@@ -106,25 +118,72 @@ namespace C__testing
                         end = true;
                     } else if(a == '#') {
                         guardID = "";
+                        isGuardYes = true;
                         isGuardID = true;
+                        guardCounter++;
                     } else if(isGuardID && Char.IsDigit(a)) {
                         guardID += a;
                     }
                 }
+                infoCounter++;
+                if(isGuardYes) {
+                    // Console.WriteLine("IsGuard, ID: "+guardID);
+                    Boolean useless = false;
+                    foreach(string a in guards) {
+                        // Console.WriteLine("A: "+a+", ID: "+guardID);
+                        if(a == guardID) {
+                            useless = true;
+                        }
+                    }
+                    
+                    if(first || !useless) {
+                        guards[guardIndex] = guardID;
+                        guardIndex++;
+                        first = false;
+                    }
+
+                    // foreach(string a in guards) {
+                    //     if(a != guardID) {
+                    //         Console.WriteLine("Index: "+guardIndex+ " "+guardID);
+                    //         guards[guardIndex] = guardID;
+                    //         guardIndex++;
+                    //     }    
+                    // }
+                }
+
                 key = key+guardID;
                 sortedTable[key] = info.ToString();
             }
+
+            foreach(KeyValuePair<string, string> pair in sortedTable) {
+                string time = "";
+                int hours = 0, minutes = 0;
+                Boolean temp = false, space = false;
+                foreach(char a in pair.Value) {
+                    if(Char.IsDigit(a) && !temp) {
+                        
+                    }
+                }
+            }
+
 
             // Prints table with timestamp keys
             // foreach(KeyValuePair<string, string> a in table) {
             //     Console.WriteLine("Key: {0}, Value: {1}", a.Key, a.Value);
             // }
 
-            // Prints sortedtable, that have timestamp and guard id as key
-            foreach(KeyValuePair<string, string> a in sortedTable) {
-                Console.WriteLine("Key: {0}, Value: {1}", a.Key, a.Value);
-            }
+            // // Prints sortedtable, that have timestamp and guard id as key
+            // foreach(KeyValuePair<string, string> a in sortedTable) {
+            //     Console.WriteLine("Key: {0}, Value: {1}", a.Key, a.Value);
+            // }
 
+            // foreach(string a in guards) {
+            //     Console.WriteLine("GuardID: {0}", a);
+            // }
+            foreach(string a in guards) {
+                Console.WriteLine("Guard: {0}", a);
+            }
+            Console.WriteLine("Coutner: "+guardCounter+", index: "+guardIndex);
             sr.Close();
         }
 
