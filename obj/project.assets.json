@@ -692,11 +692,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Akseli\\OneDrive - University of Eastern Finland\\Koodailua\\C# testing\\C# testing.csproj",
+      "projectUniqueName": "C:\\GitHub\\Advent-of-Code-2018\\C# testing.csproj",
       "projectName": "C# testing",
-      "projectPath": "C:\\Users\\Akseli\\OneDrive - University of Eastern Finland\\Koodailua\\C# testing\\C# testing.csproj",
+      "projectPath": "C:\\GitHub\\Advent-of-Code-2018\\C# testing.csproj",
       "packagesPath": "C:\\Users\\Akseli\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Akseli\\OneDrive - University of Eastern Finland\\Koodailua\\C# testing\\obj\\",
+      "outputPath": "C:\\GitHub\\Advent-of-Code-2018\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
