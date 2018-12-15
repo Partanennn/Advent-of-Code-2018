@@ -105,6 +105,12 @@ namespace C__testing
             string guardID = "";
             int startMin = 0, endMin = 0;
 
+            
+            // This dictionary is to see which minute the guard is sleeping the most
+            Dictionary<int, int> solution = new Dictionary<int, int>();
+            for(int a = 0; a < 60; a++)
+                solution[a] = 0;
+
             foreach(KeyValuePair<string, string> pair in sortedTable) {
                 int time = 0;
                 string hours = "", minutes = "";
@@ -147,12 +153,20 @@ namespace C__testing
                         guardsMins[Int32.Parse(guardID)] = slept;
                 }
 
+
                 if(guardID == "1993" && info == "fallsasleep") {
-                    Console.WriteLine("Sleep: {0}", startMin);
+                    // Console.WriteLine("Sleep: {0}", startMin);
+                    // Console.WriteLine("Alotus: {0}, Lopetus: {1}, Info: {2}", startMin, endMin, pair.Value);
+                    
                 } else if(guardID == "1993" && info == "wakesup")  {
-                    Console.WriteLine("Awake: {0}", endMin);
+                    // Console.WriteLine("Awake: {0}", endMin);
+                    for(int minuutti = startMin; minuutti != (endMin-1); minuutti++) {
+                        if(minuutti == 60)
+                            minuutti = 0;
+                        solution[minuutti]++;
+                    }
                 } else if(guardID == "1993" && info == "Guardbeginsshift") {
-                    Console.WriteLine("Starts shift");
+                    // Console.WriteLine("Starts shift");
                 }
 
                 // DEBUGGING: TO check that key and info are what tehy should be
@@ -167,10 +181,16 @@ namespace C__testing
             // }
 
 
-            // Gets max value a.k.a most minutes slept and guards id for that value
-            int maxValue = guardsMins.Max(KeyValuePair => KeyValuePair.Value);
-            var maxKey = guardsMins.Where(kvp => kvp.Value == maxValue).Select(kvp => kvp.Key).First();
+            foreach(KeyValuePair<int, int> a in solution) {
+                Console.WriteLine("Key: {0}, Value: {1}", a.Key, a.Value);
+            }
 
+            // Gets max value a.k.a most minutes slept and guards id for that value
+            int maxValue = solution.Max(KeyValuePair => KeyValuePair.Value);
+            var maxKey = solution.Where(kvp => kvp.Value == maxValue).Select(kvp => kvp.Key).First();
+
+            // SOLUTION
+            Console.WriteLine("Minute spent most sleeping: {0}", maxKey);
 
             sr.Close();
         }
