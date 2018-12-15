@@ -2,7 +2,7 @@
 using System.IO;
 using System.Collections.Generic;
 using System.Collections;
-
+using System.Linq;
 /*
 --- Day 4: Repose Record ---
 You've sneaked into another supply closet - this time, it's across from the prototype suit manufacturing lab. You need to sneak inside and fix the issues with the suit, but there's a guard stationed outside the lab, so this is as close as you can safely get.
@@ -57,6 +57,7 @@ What is the ID of the guard you chose multiplied by the minute you chose? (In th
 
 namespace C__testing
 {
+
     class Program
     {
         
@@ -73,19 +74,10 @@ namespace C__testing
                 String key = "";
                 Boolean end = false;
                 int counter = 0;    // Counts for spaces
-                //Console.WriteLine(line);      // Check that string is in right form
-                // orderTable[i] = line;
-                // i++;
+                
+                // Converts string to timestamp that is key for table
                 foreach(char a in line) {
-                    
-                    // if(a == '#') {
-                    //     end = true;
-                    // } else if(a == ' ') {
-                    //     counter++;
-                    // } else if(counter == 3 && end) {
-                    //     key += a;
-                    // }
-
+ 
                     if(Char.IsDigit(a) && !end) {
                         key += a;
                     } else if(a == ' ') {
@@ -94,96 +86,92 @@ namespace C__testing
                         end = true;
                     }
                 }
-                // Console.WriteLine("Guard id: {0}", guardID);     // Checks that guard id is what it shoudl be
-                // Adds line to table
+
+                // Debug to check that key is right
+                //Console.WriteLine(key);
+
+                // Adds line to SortedDictionary, where key is timestamp
                 table[key] = line;
             }
 
-            // Adds unique key, that have timestamp and guard id in it
-            string guardID = "";
-            int guardCounter = 0;
-            int infoCounter = 0;
-            Boolean first = true;
+            // Puts table data to sortedTable and data is sorted
             foreach(KeyValuePair<string, string> info in table) {
-                String key = "";
-                Boolean end = false, isGuardID = false, isGuardYes = false;
-                int counter = 0;    // Counts for spaces
-                foreach(char a in info.ToString()) {
-                    if(Char.IsDigit(a) && !end) {
-                        key += a;
-                    } else if(a == ' ') {
-                        counter++;
-                        isGuardID = false;
-                    } else if(counter == 2) {
-                        end = true;
-                    } else if(a == '#') {
-                        guardID = "";
-                        isGuardYes = true;
-                        isGuardID = true;
-                        guardCounter++;
-                    } else if(isGuardID && Char.IsDigit(a)) {
-                        guardID += a;
-                    }
-                }
-                infoCounter++;
-                if(isGuardYes) {
-                    // Console.WriteLine("IsGuard, ID: "+guardID);
-                    Boolean useless = false;
-                    foreach(string a in guards) {
-                        // Console.WriteLine("A: "+a+", ID: "+guardID);
-                        if(a == guardID) {
-                            useless = true;
-                        }
-                    }
-                    
-                    if(first || !useless) {
-                        guards[guardIndex] = guardID;
-                        guardIndex++;
-                        first = false;
-                    }
-
-                    // foreach(string a in guards) {
-                    //     if(a != guardID) {
-                    //         Console.WriteLine("Index: "+guardIndex+ " "+guardID);
-                    //         guards[guardIndex] = guardID;
-                    //         guardIndex++;
-                    //     }    
-                    // }
-                }
-
-                key = key+guardID;
-                sortedTable[key] = info.ToString();
+                sortedTable[info.Key] = info.Value;
             }
+
+
+            // This is where are all guard ids' with minutes slept
+            Dictionary<int, int> guardsMins = new Dictionary<int, int>();
+            string guardID = "";
+            int startMin = 0, endMin = 0;
 
             foreach(KeyValuePair<string, string> pair in sortedTable) {
-                string time = "";
-                int hours = 0, minutes = 0;
-                Boolean temp = false, space = false;
+                int time = 0;
+                string hours = "", minutes = "";
+                Boolean minute = false, isGuard = false;
+                int counter = 0;                    // Counts for spaces
+                string info = "";
+
                 foreach(char a in pair.Value) {
-                    if(Char.IsDigit(a) && !temp) {
-                        
+                    if(a == '#') {
+                        guardID = "";
+                        isGuard = true;
+                    } else if(Char.IsDigit(a) && isGuard)
+                        guardID += a;
+                    else if(Char.IsLetter(a))
+                        info += a;
+                }
+                
+
+                foreach(char a in pair.Value) {
+                    if(a == ' ') {
+                        counter++;
+                    } else if(a == ':') {
+                        minute = true;
+                    } else if(minute && char.IsDigit(a) && counter == 1) {
+                        minutes += a;
                     }
                 }
+                
+                // Sets starting minute and ending minute of sleeping for a guard
+                if(info == "fallsasleep")
+                    startMin = Int32.Parse(minutes);
+                else if(info == "wakesup") {
+                    endMin = Int32.Parse(minutes);
+                    int slept = endMin - startMin;
+                    if(slept < 0)
+                        slept += 60;
+                    if(guardsMins.ContainsKey(Int32.Parse(guardID)))
+                        guardsMins[Int32.Parse(guardID)] += slept;
+                    else
+                        guardsMins[Int32.Parse(guardID)] = slept;
+                }
+
+                if(guardID == "1993" && info == "fallsasleep") {
+                    Console.WriteLine("Sleep: {0}", startMin);
+                } else if(guardID == "1993" && info == "wakesup")  {
+                    Console.WriteLine("Awake: {0}", endMin);
+                } else if(guardID == "1993" && info == "Guardbeginsshift") {
+                    Console.WriteLine("Starts shift");
+                }
+
+                // DEBUGGING: TO check that key and info are what tehy should be
+                // Console.WriteLine("Guard id: {0}, Minutes: {1}, info: {2}", guardID, minutes, info);
+
             }
-
-
-            // Prints table with timestamp keys
-            // foreach(KeyValuePair<string, string> a in table) {
-            //     Console.WriteLine("Key: {0}, Value: {1}", a.Key, a.Value);
+            
+            
+            // DEBUGGING: Check that guardsMins returns right keys and values
+            // foreach(KeyValuePair<int, int> pair in guardsMins) {
+            //     Console.WriteLine("Key: {0}, Value: {1}", pair.Key, pair.Value);
             // }
 
-            // // Prints sortedtable, that have timestamp and guard id as key
-            // foreach(KeyValuePair<string, string> a in sortedTable) {
-            //     Console.WriteLine("Key: {0}, Value: {1}", a.Key, a.Value);
-            // }
 
-            // foreach(string a in guards) {
-            //     Console.WriteLine("GuardID: {0}", a);
-            // }
-            foreach(string a in guards) {
-                Console.WriteLine("Guard: {0}", a);
-            }
-            Console.WriteLine("Coutner: "+guardCounter+", index: "+guardIndex);
+            // Gets max value a.k.a most minutes slept and guards id for that value
+            int maxValue = guardsMins.Max(KeyValuePair => KeyValuePair.Value);
+            var maxKey = guardsMins.Where(kvp => kvp.Value == maxValue).Select(kvp => kvp.Key).First();
+
+
             sr.Close();
         }
 
