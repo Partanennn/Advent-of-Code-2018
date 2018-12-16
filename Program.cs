@@ -143,7 +143,7 @@ namespace C__testing
                 if(info == "fallsasleep")
                     startMin = Int32.Parse(minutes);
                 else if(info == "wakesup") {
-                    endMin = Int32.Parse(minutes);
+                    endMin = Int32.Parse(minutes)-1;
                     int slept = endMin - startMin;
                     if(slept < 0)
                         slept += 60;
@@ -153,18 +153,22 @@ namespace C__testing
                         guardsMins[Int32.Parse(guardID)] = slept;
                 }
 
-
+                if(guardID == "1993") {
+                    // Console.WriteLine(pair.Value);
+                }
                 if(guardID == "1993" && info == "fallsasleep") {
                     // Console.WriteLine("Sleep: {0}", startMin);
-                    // Console.WriteLine("Alotus: {0}, Lopetus: {1}, Info: {2}", startMin, endMin, pair.Value);
                     
                 } else if(guardID == "1993" && info == "wakesup")  {
-                    // Console.WriteLine("Awake: {0}", endMin);
-                    for(int minuutti = startMin; minuutti != (endMin-1); minuutti++) {
+                    // Console.WriteLine("Awake: {0}, SLeep: {1}", endMin, startMin);
+                    int minuutti = startMin;
+                    //Console.Write("Alotus: {0}, ", minuutti);
+                    for(minuutti = startMin; minuutti != (endMin-1); minuutti++) {
                         if(minuutti == 60)
                             minuutti = 0;
                         solution[minuutti]++;
                     }
+                    // Console.WriteLine("Minuutti: {0}", minuutti);
                 } else if(guardID == "1993" && info == "Guardbeginsshift") {
                     // Console.WriteLine("Starts shift");
                 }
