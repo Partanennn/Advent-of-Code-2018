@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.IO;
 
 /*
 --- Day 5: Alchemical Reduction ---
@@ -52,7 +52,33 @@ namespace C__testing
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("A: {0}, a: {1}, C: {2}, c:{3}",Int32.Parse("A"), Int32.Parse("a"), Int32.Parse("C"), Int32.Parse("c"));
+            StreamReader sr = new StreamReader("input.txt");
+            string line = sr.ReadLine();
+            int changes = 1;
+            
+            // Prints length of line at start
+            // Console.WriteLine(line.Length);
+            
+
+            // This while runs as long as there are any changes for line,
+            // if there are'nt any changes then this while will end
+            while(changes != 0) {
+                changes = 1;
+                for(int i = 0; i < line.Length-1; i++) {
+                    // If character and the next character are, for example a and A or A and a, then this if happens
+                    if((int)line[i]+32 == (int)line[i+1] || (int)line[i] == (int)line[i+1]-32 || (int)line[i+1]+32 == (int)line[i] || (int)line[i]-32 == (int)line[i+1]) {
+                        line = line.Remove(i, 2);
+                        changes++;
+                    }
+            
+                    if(i == line.Length-2 && changes == 1) {
+                        Console.WriteLine("On");
+                        changes = 0;
+                    }
+                }
+            }
+            // Gives solution, units
+            Console.WriteLine(line.Length);
         }
     }
 }
