@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Collections.Generic;
 
 /*
 --- Day 5: Alchemical Reduction ---
@@ -54,6 +55,39 @@ namespace C__testing
         {
             StreamReader sr = new StreamReader("input.txt");
             string line = sr.ReadLine();
+            Remover(line);
+            // Reactor('a', 'b', line);
+            
+            sr.Close();
+        }
+
+        static void Remover(string line) {
+            int units = 0;
+            string temp = line;
+            int charBig = 65, charSmall = 97;
+            var list = new List<int>();
+
+            for(; charBig < 91; charSmall++, charBig++) {
+                temp = line;
+                for(int j = 0; j < temp.Length; j++) {
+                    if(temp[j] == (char)charBig || temp[j] == (char)charSmall) {
+                        temp = temp.Remove(j, 1);
+                    }
+                }
+                list.Add(Reactor((char)charBig, (char)charSmall, temp));
+            }
+            int min = 13000;
+            foreach (var type in list) {
+                if (type < min) {
+                    min = type;
+                }
+            }
+
+            Console.WriteLine("Answer: {0}", min);
+        }
+
+        static int Reactor(char a, char b, string line) {
+            
             int changes = 1;
             
             // Prints length of line at start
@@ -72,13 +106,13 @@ namespace C__testing
                     }
             
                     if(i == line.Length-2 && changes == 1) {
-                        Console.WriteLine("On");
                         changes = 0;
                     }
                 }
             }
-            // Gives solution, units
-            Console.WriteLine(line.Length);
+            // Gives solutions, units
+            Console.WriteLine("Units: {0}, Chars: {1} {2}", line.Length, a, b);
+            return line.Length;
         }
     }
 }
