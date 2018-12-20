@@ -53,66 +53,67 @@ namespace C__testing
     {
         static void Main(string[] args)
         {
-            StreamReader sr = new StreamReader("input.txt");
-            string line = sr.ReadLine();
-            Remover(line);
-            // Reactor('a', 'b', line);
-            
+            // StreamReader sr = new StreamReader("input.txt");
+            StreamReader sr = new StreamReader("test.txt");
+            int c = 65;
+            int maxX = 0, maxY = 0;
+
+            while(!sr.EndOfStream) {
+                string coordinates = sr.ReadLine();
+                Boolean dot = false;
+                string coordA = "", coordB = "";
+                
+                foreach(char a in coordinates) {
+                    if(Char.IsDigit(a) && !dot) {
+                        coordA += a;
+                    } else if(Char.IsDigit(a) && dot) {
+                        coordB += a;
+                    } else dot = true;
+                }
+
+                if(Int32.Parse(coordA) > maxX) maxX = Int32.Parse(coordA);
+                if(Int32.Parse(coordB) > maxY) maxY = Int32.Parse(coordB);
+            }
+
+            // Console.WriteLine("MAX x: {0}, MAX y: {1}", maxX, maxY);
+
+            maxX+=2;
+            maxY++;
+            string[,] coords = new string[maxX, maxY];
+
+            for(int i = 0; i < maxX; i++) {
+                for(int j = 0; j < maxY; j++) {
+                    coords[i, j] = ".";
+                }
+            }
             sr.Close();
-        }
-
-        static void Remover(string line) {
-            int units = 0;
-            string temp = line;
-            int charBig = 65, charSmall = 97;
-            var list = new List<int>();
-
-            for(; charBig < 91; charSmall++, charBig++) {
-                temp = line;
-                for(int j = 0; j < temp.Length; j++) {
-                    if(temp[j] == (char)charBig || temp[j] == (char)charSmall) {
-                        temp = temp.Remove(j, 1);
-                    }
+            sr = new StreamReader("test.txt");
+            while(!sr.EndOfStream) {
+                string coordinates = sr.ReadLine();
+                Boolean dot = false;
+                string coordA = "", coordB = "";
+                
+                foreach(char a in coordinates) {
+                    if(Char.IsDigit(a) && !dot) {
+                        coordA += a;
+                    } else if(Char.IsDigit(a) && dot) {
+                        coordB += a;
+                    } else dot = true;
                 }
-                list.Add(Reactor((char)charBig, (char)charSmall, temp));
-            }
-            int min = 13000;
-            foreach (var type in list) {
-                if (type < min) {
-                    min = type;
-                }
+                
+                // Console.WriteLine("CoordA: {0}, CoordB: {1}, MAX x: {2}, MAX y: {3}", coordA, coordB, maxX, maxY);
+                coords[Int32.Parse(coordB), Int32.Parse(coordA)] = ((char)c).ToString();
+                c++;
             }
 
-            Console.WriteLine("Answer: {0}", min);
-        }
-
-        static int Reactor(char a, char b, string line) {
-            
-            int changes = 1;
-            
-            // Prints length of line at start
-            // Console.WriteLine(line.Length);
-            
-
-            // This while runs as long as there are any changes for line,
-            // if there are'nt any changes then this while will end
-            while(changes != 0) {
-                changes = 1;
-                for(int i = 0; i < line.Length-1; i++) {
-                    // If character and the next character are, for example a and A or A and a, then this if happens
-                    if((int)line[i]+32 == (int)line[i+1] || (int)line[i] == (int)line[i+1]-32 || (int)line[i+1]+32 == (int)line[i] || (int)line[i]-32 == (int)line[i+1]) {
-                        line = line.Remove(i, 2);
-                        changes++;
-                    }
-            
-                    if(i == line.Length-2 && changes == 1) {
-                        changes = 0;
-                    }
+            for(int i = 0; i < maxX; i++) {
+                for(int j = 0; j < maxY; j++) {
+                    Console.Write(coords[i, j]);
                 }
-            }
-            // Gives solutions, units
-            Console.WriteLine("Units: {0}, Chars: {1} {2}", line.Length, a, b);
-            return line.Length;
+                Console.WriteLine();
+            }    
+
+            sr.Close();
         }
     }
 }
