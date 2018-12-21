@@ -54,28 +54,54 @@ namespace C__testing
         static void Main(string[] args)
         {
             StreamReader sr = new StreamReader("input.txt");
-            string line = sr.ReadLine();
-            Remover(line);
-            // Reactor('a', 'b', line);
-            
+            // DEBUGGIN AND TESTING
+            // StreamReader sr = new StreamReader("test.txt");
+            while(!sr.EndOfStream) {
+                string line = sr.ReadLine();
+                Remover(line);
+            }
             sr.Close();
         }
 
         static void Remover(string line) {
             int units = 0;
-            string temp = line;
             int charBig = 65, charSmall = 97;
             var list = new List<int>();
 
-            for(; charBig < 91; charSmall++, charBig++) {
-                temp = line;
-                for(int j = 0; j < temp.Length; j++) {
-                    if(temp[j] == (char)charBig || temp[j] == (char)charSmall) {
-                        temp = temp.Remove(j, 1);
+            for(; charBig != 91; charBig++, charSmall++) {
+                string temp = line;
+                
+                // DEBUGGING:
+                // Console.WriteLine("-------------------------------");
+                for(int i = 0; i < temp.Length; i++) {
+
+                    // DEBUGGING:
+                    // if(i == 0) {
+                    //     Console.WriteLine("Temp before remove: "+temp);
+                    // }
+                    // DEBUGGING:
+                    // Console.Write(" {0} ", temp[i]);
+
+                    if(temp[i] == (char)charBig || temp[i] == (char)charSmall) {
+                        // DEBUGGING:
+                        // Console.Write("Removed, index: {1}////", temp[i], i);
+                        temp = temp.Remove(i, 1);
+                        i--;
                     }
                 }
-                list.Add(Reactor((char)charBig, (char)charSmall, temp));
+                // DEBUGGING:
+                // Console.WriteLine();
+                // Console.WriteLine("Temp before reactor: "+temp);
+                
+                temp = Reactor(temp);
+                
+                // DEBUGGING
+                // Console.WriteLine("Temp: {0}, Length: {1}", temp, temp.Length);
+                list.Add(temp.Length);
             }
+
+            // Goes throw arraylist which is full of string lengths
+            // and sets min to be the lowest
             int min = 13000;
             foreach (var type in list) {
                 if (type < min) {
@@ -83,10 +109,11 @@ namespace C__testing
                 }
             }
 
+            // Prints the smallest value in arraylist, which is answer to question
             Console.WriteLine("Answer: {0}", min);
         }
 
-        static int Reactor(char a, char b, string line) {
+        static string Reactor(string line) {
             
             int changes = 1;
             
@@ -111,8 +138,8 @@ namespace C__testing
                 }
             }
             // Gives solutions, units
-            Console.WriteLine("Units: {0}, Chars: {1} {2}", line.Length, a, b);
-            return line.Length;
+            // Console.WriteLine("Units: {0}, Chars: {1} {2}", line.Length, a, b);
+            return line;
         }
     }
 }
